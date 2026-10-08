@@ -1,0 +1,6 @@
+{
+  "ship": { "width": 10, "length": 8, "max_weight": 50 },
+  "vehicles": [
+    { "id": "A", "width": 3, "length": 2, "weight": 4, "shipping_fee": 10 }
+  ]
+}
