@@ -1,0 +1,19 @@
+# file hasil generate (plot & animasi) -- yang di-commit cukup .gitkeep
+output/*
+!output/.gitkeep
+
+# cache python
+__pycache__/
+*.pyc
+
+# venv (kalau ada)
+venv/
+.venv/
+
+# IDE & editor
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store

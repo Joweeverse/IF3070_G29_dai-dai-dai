@@ -1,0 +1,17 @@
+{
+  "ship": { "width": 12, "length": 10, "max_weight": 120 },
+  "vehicles": [
+    { "id": "A", "width": 3, "length": 2, "weight": 10, "shipping_fee": 15 },
+    { "id": "B", "width": 4, "length": 2, "weight": 15, "shipping_fee": 20 },
+    { "id": "C", "width": 3, "length": 1, "weight": 8, "shipping_fee": 10 },
+    { "id": "D", "width": 3, "length": 4, "weight": 20, "shipping_fee": 35 },
+    { "id": "E", "width": 2, "length": 2, "weight": 12, "shipping_fee": 18 },
+    { "id": "F", "width": 5, "length": 2, "weight": 25, "shipping_fee": 40 },
+    { "id": "G", "width": 2, "length": 3, "weight": 10, "shipping_fee": 14 },
+    { "id": "H", "width": 4, "length": 3, "weight": 18, "shipping_fee": 28 },
+    { "id": "I", "width": 1, "length": 4, "weight": 6, "shipping_fee": 9 },
+    { "id": "J", "width": 3, "length": 3, "weight": 14, "shipping_fee": 22 },
+    { "id": "K", "width": 2, "length": 1, "weight": 5, "shipping_fee": 8 },
+    { "id": "L", "width": 4, "length": 1, "weight": 9, "shipping_fee": 12 }
+  ]
+}

@@ -22,8 +22,10 @@
   "initial_state":	state |	state awal
   "final_state":	state	| solusi terbaik yang ditemukan
   "history":	list of float	| nilai objective terbaik per iterasi/generasi
+  "history_avg":	list of float	| (opsional, GA) rata-rata objective populasi per generasi
   "duration":	float	| waktu eksekusi (detik)
   "metrics":	dict	| bebas per algoritma (SA: temperature akhir; GA: pop_size, dll.)
+  "state_history":	list of state	| (opsional) snapshot state tiap improvement
 
 ## format input
 - JSON: {ship: {width, length, max_weight}, vehicles: [{ id, width, length, weight, shipping_fee }, ...]}
