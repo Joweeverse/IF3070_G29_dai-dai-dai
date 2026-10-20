@@ -1,9 +1,3 @@
-"""Eksperimen Hill-Climbing (sideways) dan Simulated Annealing: 3 run per algoritma.
-
-Pakai:  python experiment_hc_sa.py [path_instance.json]
-Output (folder ../output): grafik per run, gambar state awal/akhir, results.json,
-results.md (tabel untuk laporan), dan dump teks state awal/akhir per run.
-"""
 import json
 import os
 import sys
@@ -48,7 +42,7 @@ def save(fig, name):
     return path
 
 
-def plot_states(result, vehicles, ship, name, judul):
+def plot_states(result, vehicles, ship, name, title):
     fig, axes = plt.subplots(1, 4, figsize=(13, 5),
                              width_ratios=[ship["width"], 4, ship["width"], 4])
     for ax_k, ax_d, key, label in ((axes[0], axes[1], "initial_state", "awal"),
@@ -56,37 +50,37 @@ def plot_states(result, vehicles, ship, name, judul):
         st = result[key]
         draw_panel(ax_k, st, vehicles, ship, "geladak (" + label + ")", True)
         draw_panel(ax_d, st, vehicles, ship, "luar kapal (" + label + ")", False)
-    fig.suptitle(judul, fontsize=12)
+    fig.suptitle(title, fontsize=12)
     return save(fig, name)
 
 
-def plot_hc(result, name, judul):
+def plot_hc(result, name, title):
     h = result["history"]
     fig, ax = plt.subplots(figsize=(7, 4))
     ax.plot(range(len(h)), h, color=BLUE, lw=2)
-    style(ax, "iterasi", "objective", judul)
+    style(ax, "iterasi", "objective", title)
     ax.annotate(str(h[-1]), (len(h) - 1, h[-1]), textcoords="offset points",
                 xytext=(-4, 6), ha="right", color=INK, fontsize=9)
     return save(fig, name)
 
 
-def plot_sa(result, name, judul):
+def plot_sa(result, name, title):
     cur, best = result["history_current"], result["history"]
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.plot(range(len(cur)), cur, color=GRAY, lw=1, label="objective state saat ini")
     ax.plot(range(len(best)), best, color=BLUE, lw=2, label="terbaik sejauh ini")
     lo = min(best[0], best[-1]) - 20
     ax.set_ylim(max(lo, min(cur[len(cur) // 20:]) - 20), max(best) + 15)
-    style(ax, "iterasi", "objective", judul)
+    style(ax, "iterasi", "objective", title)
     ax.legend(frameon=False, loc="lower right")
     return save(fig, name)
 
 
-def plot_sa_prob(result, name, judul):
+def plot_sa_prob(result, name, title):
     p = result["accept_prob_history"]
     fig, axes = plt.subplots(2, 1, figsize=(8, 5.5), sharex=True)
     axes[0].scatter(range(1, len(p) + 1), p, s=2, color=ORANGE, alpha=0.4, rasterized=True)
-    style(axes[0], "", "min(1, e^(ΔE/T))", judul)
+    style(axes[0], "", "min(1, e^(ΔE/T))", title)
     axes[0].set_ylim(-0.03, 1.03)
     # rata-rata bergerak supaya tren terlihat
     w = max(1, len(p) // 100)
@@ -130,14 +124,14 @@ def main():
             m = r["metrics"]
             info = summarize(r["final_state"], vehicles, ship)
             tag = "%s_%s_seed%d" % (algo, name, seed)
-            judul = "%s seed %d" % (algo, seed)
-            plot_states(r, vehicles, ship, "states_" + tag + ".png", judul)
+            title = "%s seed %d" % (algo, seed)
+            plot_states(r, vehicles, ship, "states_" + tag + ".png", title)
             if algo == "HC":
-                plot_hc(r, "obj_" + tag + ".png", judul + ": objective vs iterasi")
+                plot_hc(r, "obj_" + tag + ".png", title + ": objective vs iterasi")
             else:
-                plot_sa(r, "obj_" + tag + ".png", judul + ": objective vs iterasi")
+                plot_sa(r, "obj_" + tag + ".png", title + ": objective vs iterasi")
                 plot_sa_prob(r, "prob_" + tag + ".png",
-                             judul + ": e^(ΔE/T) vs iterasi")
+                             title + ": e^(ΔE/T) vs iterasi")
             row = {
                 "algo": algo, "seed": seed,
                 "initial_value": r["history"][0], "final_value": m["final_value"],

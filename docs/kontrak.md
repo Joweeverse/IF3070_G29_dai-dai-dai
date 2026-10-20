@@ -5,7 +5,7 @@
 
 ## constraint
 - kalau ada yang melanggar constraint maka pakai penalty (bkn lgsg ditolak)
-- overlap 1000/cell, keluar batas kapal 1000/cell, overweight 1000/unit
+- overlap 200/cell, keluar batas kapal 200/cell, overweight 200/unit
 
 ## move
 - swap: tukar posisi & orientasi dua kendaraan. hasil boleh tdk feasible

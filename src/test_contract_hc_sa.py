@@ -1,8 +1,3 @@
-"""Test kepatuhan kontrak HC dan SA (unittest, juga bisa dijalankan pytest).
-
-Jalankan dari root repo:
-    python -m unittest discover -s tests -v      # atau: pytest
-"""
 import os
 import sys
 import unittest
@@ -10,12 +5,12 @@ import unittest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "src"))
 
-from main import load_instance                      # noqa: E402
-from objective import evaluate, summarize           # noqa: E402
-from hill_climbing import hill_climbing             # noqa: E402
-from simulated_annealing import simulated_annealing  # noqa: E402
+from main import load_instance                      
+from objective import evaluate, summarize           
+from hill_climbing import hill_climbing             
+from simulated_annealing import simulated_annealing 
 
-DEMO = os.path.join(ROOT, "src\data", "demo.json")
+DEMO = os.path.join(ROOT, "src", "data", "demo.json")
 REQUIRED_KEYS = {"initial_state", "final_state", "history", "duration", "metrics"}
 
 # parameter kecil supaya test cepat

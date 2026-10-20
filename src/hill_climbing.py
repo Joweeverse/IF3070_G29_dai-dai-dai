@@ -1,28 +1,3 @@
-"""Hill-Climbing with Sideways Move.
-
-Pseudocode
-----------
-    current <- initial_state (random, reproducible dari seed)
-    sideways <- 0
-    ulangi sampai max_iter:
-        N <- sampel k neighbor acak dari current
-        best <- neighbor dengan evaluate tertinggi (seri dipilih acak)
-        jika evaluate(best) >  evaluate(current): current <- best; sideways <- 0
-        jika evaluate(best) == evaluate(current): current <- best; sideways += 1
-                                                  jika sideways > max_sideways: berhenti
-        jika evaluate(best) <  evaluate(current): berhenti (local optimum)
-    kembalikan current
-
-Heuristik (untuk laporan): neighbor TIDAK dievaluasi seluruhnya karena
-himpunannya besar (n kendaraan x W*L koordinat); tiap iterasi hanya
-disampel `k` neighbor acak lalu diambil yang terbaik (steepest ascent pada
-sampel). Neighbor dibangkitkan oleh neighbor_hcsa.random_neighbor.
-
-Alasan memilih varian sideways: objective hanya menjumlahkan fee kendaraan
-yang on_board, sehingga banyak move (menggeser / memutar kendaraan yang
-sudah dalam kapal) menghasilkan delta = 0 (plateau). Steepest ascent murni
-akan berhenti di plateau; sideways move memungkinkan menyeberangi plateau.
-"""
 import random
 import time
 
@@ -43,12 +18,12 @@ def hill_climbing(vehicles, ship, max_sideways=100, max_iter=1000,
     current = copy_state(initial_state)
     current_value = evaluate(current, vehicles, ship)
 
-    history = [current_value]          # nilai objective per iterasi (monoton naik)
+    history = [current_value] # nilai objective per iterasi (monoton naik)
     state_history = [copy_state(current)]
-    state_history_iter = [0]           # indeks iterasi tiap snapshot (index ke history)
+    state_history_iter = [0] # indeks iterasi tiap snapshot (index ke history)
 
-    sideways_used = 0                  # total sideways move
-    sideways_streak = 0                # sideways berturut-turut (yang dibatasi max_sideways)
+    sideways_used = 0 # total sideways move
+    sideways_streak = 0 # sideways berturut-turut (yang dibatasi max_sideways)
     stop_reason = "max_iter"
     iterations = 0
 

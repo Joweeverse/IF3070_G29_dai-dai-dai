@@ -1,38 +1,3 @@
-"""Simulated Annealing.
-
-Pseudocode
-----------
-    current <- initial_state (random, reproducible dari seed)
-    best <- current
-    T <- T0
-    untuk it = 1 .. max_iter, selama T >= T_min:
-        cand <- satu neighbor acak dari current
-        dE <- evaluate(cand) - evaluate(current)
-        p <- min(1, exp(dE / T))              # dicatat di accept_prob_history
-        jika dE >= 0:            current <- cand
-        selain itu, rand < p:    current <- cand        (terima langkah buruk)
-        selain itu:              stuck_count += 1       (kandidat buruk ditolak)
-        jika evaluate(current) > evaluate(best): best <- current
-        T <- alpha * T                                  (cooling geometrik)
-    kembalikan best
-
-Definisi 'stuck' (untuk laporan): satu event stuck terjadi ketika kandidat
-yang lebih buruk (dE < 0) ditolak karena rand >= exp(dE/T), yaitu search
-bertahan di state saat ini. Frekuensi stuck = stuck_count / jumlah iterasi.
-
-Nilai yang diplot untuk e^(dE/T): min(1, e^(dE/T)) per iterasi, sehingga
-langkah membaik / sideways bernilai 1.0 dan langkah memburuk bernilai < 1.
-
-history  = objective terbaik (best-so-far) per iterasi, sesuai kontrak.
-result["history_current"] = objective state saat ini per iterasi (di luar metrics).
-final_state = state terbaik yang pernah dikunjungi.
-
-Kalibrasi T0 (jika T0=None): rata-rata dE negatif yang bermakna adalah
--mean(fee) (mengeluarkan satu kendaraan), lalu T0 = mean(fee) / -ln(p0) dengan
-p0 = 0.8, sehingga langkah memburuk 'tipikal' di awal diterima dengan peluang
-sekitar 0.8. Jika alpha None, alpha dipilih agar T turun dari T0 ke T_min
-tepat pada max_iter (cooling geometrik).
-"""
 import math
 import random
 import time
@@ -43,15 +8,6 @@ from neighbor_hcsa import make_initial, random_neighbor
 
 
 def calibrate_t0(vehicles, p0=0.8):
-    """T0 sehingga kehilangan satu kendaraan rata-rata diterima dengan peluang p0.
-
-    Pada state yang feasible, langkah memburuk yang 'bermakna' adalah
-    mengeluarkan kendaraan dari kapal (dE = -fee). Maka rata-rata dE negatif
-    bernilai -mean(fee), dan exp(dE/T0) = p0  ->  T0 = mean(fee) / -ln(p0).
-    Rata-rata dE negatif dari sampel neighbor state random TIDAK dipakai:
-    ia didominasi penalty pelanggaran (200 per sel) sehingga T0 jauh terlalu
-    panas dan sebagian besar iterasi terbuang di ruang tak-feasible.
-    """
     fees = [v["shipping_fee"] for v in vehicles.values()]
     return (sum(fees) / len(fees)) / -math.log(p0)
 

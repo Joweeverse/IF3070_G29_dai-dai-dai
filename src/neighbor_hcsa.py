@@ -1,36 +1,9 @@
-"""Neighbor generator + util untuk Hill-Climbing dan Simulated Annealing.
-
-File ini sengaja terpisah dari state.py (milik Anggota 1) supaya tidak ada
-konflik merge. Semua fungsi memakai rng = random.Random(seed) milik sendiri,
-tidak memakai random global, sehingga run bisa direproduksi.
-
-Heuristik neighbor (dicatat untuk laporan):
-  1. move_to   : kendaraan on_board dipindah ke koordinat acak yang MUAT di
-                 geladak (x in [0, W-w], y in [0, L-h]) sesuai orientasinya.
-  2. rotate    : flip H<->V, kendaraan on_board saja. Kalau hasil rotasi keluar
-                 batas, anchor digeser masuk agar tetap muat (jika bisa).
-  3. toggle    : kendaraan keluar/masuk kapal. Saat masuk, diberi posisi acak
-                 yang muat (supaya tidak hampir selalu out-of-bounds).
-  4. swap      : dua kendaraan bertukar "slot" (on_board, x, y, orientation).
-                 Minimal salah satunya on_board, sehingga swap dalam-luar
-                 (spek: "baik di dalam maupun di luar") benar-benar terjadi.
-  Move yang tidak mengubah objective secara semantik (memindah / memutar
-  kendaraan yang berada di luar kapal, swap dua kendaraan di luar) tidak
-  dibangkitkan, supaya sideways move di HC benar-benar menjelajah plateau
-  yang bermakna dan bukan sekadar mengubah koordinat kendaraan yang tidak
-  terpakai.
-"""
 import random
 
 from state import random_state, get_dimensions, copy_state
 
 
 def make_initial(vehicles, ship, seed):
-    """Initial state random yang reproducible tanpa mengubah random global.
-
-    random_state() milik state.py memakai random global, jadi state global
-    disimpan dulu, di-seed, lalu dikembalikan.
-    """
     saved = random.getstate()
     try:
         random.seed(seed)
