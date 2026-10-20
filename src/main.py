@@ -5,8 +5,8 @@ from state import random_state
 from objective import evaluate
 from visualize import print_report
 from genetic_algorithm import genetic_algorithm
-# from hill_climbing import hill_climbing
-# from simulated_annealing import simulated_annealing
+from hill_climbing import hill_climbing
+from simulated_annealing import simulated_annealing
 
 
 def load_instance(path):
@@ -21,10 +21,10 @@ def load_instance(path):
 def run_algorithm(nama, vehicles, ship):
     if nama == "genetic_algorithm" or nama == "ga":
         return genetic_algorithm(vehicles, ship, pop_size=8, generations=200)
-    # elif nama == "simulated_annealing":
-    #     return simulated_annealing(vehicles, ship)
-    # elif nama == "hill_climbing":
-    #     return hill_climbing(vehicles, ship)
+    elif nama == "simulated_annealing" or nama == "sa":
+        return simulated_annealing(vehicles, ship, seed=1)
+    elif nama == "hill_climbing" or nama == "hc":
+        return hill_climbing(vehicles, ship, seed=1)
     else:
         return None
 
