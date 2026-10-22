@@ -1,0 +1,287 @@
+============================================================
+STEEPEST_demo_seed1  (objective akhir 182)
+============================================================
+-- state awal --
+    012345678901
+  0 ............
+  1 ........KK..
+  2 ............
+  3 ............
+  4 .AAA...JJJ..
+  5 .AAA...JJJ..
+  6 CCC....JJJ..
+  7 ............
+  8 FFFFF.......
+  9 FFFFF.......
+  {'total_fee': 95, 'total_weight': 62, 'vehicles_on_board': 5, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  luar kapal: B, D, E, G, H, I, L
+-- state akhir --
+    012345678901
+  0 ...BBDDD....
+  1 GGGBBDDDKK..
+  2 GGGBBDDD....
+  3 ...BBDDD....
+  4 .AAA...JJJ..
+  5 .AAA...JJJ..
+  6 CCC....JJJ..
+  7 .....EE.....
+  8 FFFFFEE.....
+  9 FFFFF.......
+  {'total_fee': 182, 'total_weight': 119, 'vehicles_on_board': 9, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  luar kapal: H, I, L
+
+============================================================
+STEEPEST_demo_seed2  (objective akhir 176)
+============================================================
+-- state awal --
+    012345678901
+  0 ....FF......
+  1 ....FF......
+  2 ....FF......
+  3 ....FF......
+  4 ....FF......
+  5 ..I.........
+  6 ..I..GGK....
+  7 ..I..GGK....
+  8 ..I..JJJ....
+  9 #....###....
+  {'total_fee': 103, 'total_weight': 68, 'vehicles_on_board': 6, 'overlap_cells': 2, 'out_of_bounds_cells': 5, 'overweight_units': 0, 'feasible': False}
+  luar kapal: A, B, D, E, H, L
+-- state akhir --
+    012345678901
+  0 ....FF...JJJ
+  1 ....FF...JJJ
+  2 DDDDFF...JJJ
+  3 DDDDFF......
+  4 DDDDFF......
+  5 ..I.........
+  6 ..I..GGHHH..
+  7 ..I..GGHHH..
+  8 ..I..GGHHHEE
+  9 CCC....HHHEE
+  {'total_fee': 176, 'total_weight': 113, 'vehicles_on_board': 8, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  luar kapal: A, B, K, L
+
+============================================================
+STEEPEST_demo_seed3  (objective akhir 181)
+============================================================
+-- state awal --
+    012345678901
+  0 ....HHH.....
+  1 ....HHH.....
+  2 .GGGHHHEAAA.
+  3 .GGGHHHEAAA.
+  4 .......C....
+  5 .......C....
+  6 ....L..CFII#
+  7 ....L...FF.#
+  8 ....L...FF.#
+  9 ....L...####
+  {'total_fee': 201, 'total_weight': 133, 'vehicles_on_board': 10, 'overlap_cells': 6, 'out_of_bounds_cells': 18, 'overweight_units': 13, 'feasible': False}
+  luar kapal: J, K
+-- state akhir --
+    012345678901
+  0 ....FF......
+  1 ....FF......
+  2 .GGGFFEEAAA.
+  3 .GGGFFEEAAA.
+  4 IIIIFF.C....
+  5 .......C....
+  6 DDDDL..CHHH.
+  7 DDDDL...HHH.
+  8 DDDDL...HHH.
+  9 ....L...HHH.
+  {'total_fee': 181, 'total_weight': 118, 'vehicles_on_board': 9, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  luar kapal: B, J, K
+
+============================================================
+STOCHASTIC_demo_seed1  (objective akhir 176)
+============================================================
+-- state awal --
+    012345678901
+  0 ............
+  1 ........KK..
+  2 ............
+  3 ............
+  4 .AAA...JJJ..
+  5 .AAA...JJJ..
+  6 CCC....JJJ..
+  7 ............
+  8 FFFFF.......
+  9 FFFFF.......
+  {'total_fee': 95, 'total_weight': 62, 'vehicles_on_board': 5, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  luar kapal: B, D, E, G, H, I, L
+-- state akhir --
+    012345678901
+  0 ............
+  1 ....JJJ.KKL.
+  2 I...JJJ...L.
+  3 I...JJJ...L.
+  4 IEE....HHHL.
+  5 IEE....HHHAA
+  6 CCC....HHHAA
+  7 .......HHHAA
+  8 FFFFF...GGG.
+  9 FFFFF...GGG.
+  {'total_fee': 176, 'total_weight': 117, 'vehicles_on_board': 10, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  luar kapal: B, D
+
+============================================================
+STOCHASTIC_demo_seed2  (objective akhir 184)
+============================================================
+-- state awal --
+    012345678901
+  0 ....FF......
+  1 ....FF......
+  2 ....FF......
+  3 ....FF......
+  4 ....FF......
+  5 ..I.........
+  6 ..I..GGK....
+  7 ..I..GGK....
+  8 ..I..JJJ....
+  9 #....###....
+  {'total_fee': 103, 'total_weight': 68, 'vehicles_on_board': 6, 'overlap_cells': 2, 'out_of_bounds_cells': 5, 'overweight_units': 0, 'feasible': False}
+  luar kapal: A, B, D, E, H, L
+-- state akhir --
+    012345678901
+  0 ....FF...JJJ
+  1 HHHHFF...JJJ
+  2 HHHHFF...JJJ
+  3 HHHHFF.DDDD.
+  4 ....FF.DDDD.
+  5 ..EE...DDDD.
+  6 ..EE.GGL....
+  7 .....GGLAAA.
+  8 .....GGLAAA.
+  9 .......L....
+  {'total_fee': 184, 'total_weight': 118, 'vehicles_on_board': 8, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  luar kapal: B, C, I, K
+
+============================================================
+STOCHASTIC_demo_seed3  (objective akhir 189)
+============================================================
+-- state awal --
+    012345678901
+  0 ....HHH.....
+  1 ....HHH.....
+  2 .GGGHHHEAAA.
+  3 .GGGHHHEAAA.
+  4 .......C....
+  5 .......C....
+  6 ....L..CFII#
+  7 ....L...FF.#
+  8 ....L...FF.#
+  9 ....L...####
+  {'total_fee': 201, 'total_weight': 133, 'vehicles_on_board': 10, 'overlap_cells': 6, 'out_of_bounds_cells': 18, 'overweight_units': 13, 'feasible': False}
+  luar kapal: J, K
+-- state akhir --
+    012345678901
+  0 .........AAA
+  1 ..KK.....AAA
+  2 .GG...EEJJJ.
+  3 .GGFF.EEJJJ.
+  4 .GGFF...JJJ.
+  5 HHHFFDDDD...
+  6 HHHFFDDDDI..
+  7 HHHFFDDDDI..
+  8 HHH......I..
+  9 .........I..
+  {'total_fee': 189, 'total_weight': 120, 'vehicles_on_board': 9, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  luar kapal: B, C, L
+
+============================================================
+RANDOMRESTART_demo_seed1  (objective akhir 189)
+============================================================
+-- state awal --
+    012345678901
+  0 ............
+  1 ........KK..
+  2 ............
+  3 ............
+  4 .AAA...JJJ..
+  5 .AAA...JJJ..
+  6 CCC....JJJ..
+  7 ............
+  8 FFFFF.......
+  9 FFFFF.......
+  {'total_fee': 95, 'total_weight': 62, 'vehicles_on_board': 5, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  luar kapal: B, D, E, G, H, I, L
+-- state akhir --
+    012345678901
+  0 FF.....DDD..
+  1 FFIIII.DDD..
+  2 FF.....DDD..
+  3 FF.EEGGDDD..
+  4 FF.EEGG.....
+  5 HHH..GG..KK.
+  6 HHH....JJJ..
+  7 HHH....JJJ..
+  8 HHHAAA.JJJ..
+  9 ...AAA......
+  {'total_fee': 189, 'total_weight': 120, 'vehicles_on_board': 9, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  luar kapal: B, C, L
+
+============================================================
+RANDOMRESTART_demo_seed2  (objective akhir 187)
+============================================================
+-- state awal --
+    012345678901
+  0 ....FF......
+  1 ....FF......
+  2 ....FF......
+  3 ....FF......
+  4 ....FF......
+  5 ..I.........
+  6 ..I..GGK....
+  7 ..I..GGK....
+  8 ..I..JJJ....
+  9 #....###....
+  {'total_fee': 103, 'total_weight': 68, 'vehicles_on_board': 6, 'overlap_cells': 2, 'out_of_bounds_cells': 5, 'overweight_units': 0, 'feasible': False}
+  luar kapal: A, B, D, E, H, L
+-- state akhir --
+    012345678901
+  0 EE......I...
+  1 EE......I...
+  2 ........IJJJ
+  3 HHH..AA.IJJJ
+  4 HHH..AA..JJJ
+  5 HHH..AA.FF..
+  6 HHH.....FF..
+  7 BBBBDDDDFF..
+  8 BBBBDDDDFF..
+  9 ....DDDDFF..
+  {'total_fee': 187, 'total_weight': 120, 'vehicles_on_board': 8, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  luar kapal: C, G, K, L
+
+============================================================
+RANDOMRESTART_demo_seed3  (objective akhir 189)
+============================================================
+-- state awal --
+    012345678901
+  0 ....HHH.....
+  1 ....HHH.....
+  2 .GGGHHHEAAA.
+  3 .GGGHHHEAAA.
+  4 .......C....
+  5 .......C....
+  6 ....L..CFII#
+  7 ....L...FF.#
+  8 ....L...FF.#
+  9 ....L...####
+  {'total_fee': 201, 'total_weight': 133, 'vehicles_on_board': 10, 'overlap_cells': 6, 'out_of_bounds_cells': 18, 'overweight_units': 13, 'feasible': False}
+  luar kapal: J, K
+-- state akhir --
+    012345678901
+  0 ............
+  1 .FFFFF..IIII
+  2 .FFFFFHHH.GG
+  3 ......HHH.GG
+  4 ..DDDDHHH.GG
+  5 ..DDDDHHH...
+  6 ..DDDD...JJJ
+  7 AAA...EE.JJJ
+  8 AAA...EE.JJJ
+  9 .KK.........
+  {'total_fee': 189, 'total_weight': 120, 'vehicles_on_board': 9, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  luar kapal: B, C, L

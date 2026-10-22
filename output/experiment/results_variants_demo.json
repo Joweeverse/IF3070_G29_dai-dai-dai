@@ -1,0 +1,168 @@
+{
+  "instance": "demo",
+  "upper_bound_knapsack": 189,
+  "params": {
+    "STEEPEST": {
+      "max_iter": 1000,
+      "k_neighbors": 200
+    },
+    "STOCHASTIC": {
+      "max_iter": 1000,
+      "k_neighbors": 200
+    },
+    "RANDOMRESTART": {
+      "max_restart": 10,
+      "max_iter": 1000,
+      "k_neighbors": 200
+    }
+  },
+  "runs": [
+    {
+      "varian": "STEEPEST",
+      "seed": 1,
+      "initial_value": 95,
+      "final_value": 182,
+      "iterations": 5,
+      "duration_s": 0.151,
+      "stop_reason": "local_optimum",
+      "feasible": true,
+      "vehicles_on_board": 9,
+      "total_weight": 119
+    },
+    {
+      "varian": "STEEPEST",
+      "seed": 2,
+      "initial_value": -1297,
+      "final_value": 176,
+      "iterations": 6,
+      "duration_s": 0.127,
+      "stop_reason": "local_optimum",
+      "feasible": true,
+      "vehicles_on_board": 8,
+      "total_weight": 113
+    },
+    {
+      "varian": "STEEPEST",
+      "seed": 3,
+      "initial_value": -7199,
+      "final_value": 181,
+      "iterations": 6,
+      "duration_s": 0.165,
+      "stop_reason": "local_optimum",
+      "feasible": true,
+      "vehicles_on_board": 9,
+      "total_weight": 118
+    },
+    {
+      "varian": "STOCHASTIC",
+      "seed": 1,
+      "initial_value": 95,
+      "final_value": 176,
+      "iterations": 10,
+      "duration_s": 0.21,
+      "stop_reason": "local_optimum",
+      "feasible": true,
+      "vehicles_on_board": 10,
+      "total_weight": 117
+    },
+    {
+      "varian": "STOCHASTIC",
+      "seed": 2,
+      "initial_value": -1297,
+      "final_value": 184,
+      "iterations": 8,
+      "duration_s": 0.236,
+      "stop_reason": "local_optimum",
+      "feasible": true,
+      "vehicles_on_board": 8,
+      "total_weight": 118
+    },
+    {
+      "varian": "STOCHASTIC",
+      "seed": 3,
+      "initial_value": -7199,
+      "final_value": 189,
+      "iterations": 16,
+      "duration_s": 0.669,
+      "stop_reason": "local_optimum",
+      "feasible": true,
+      "vehicles_on_board": 9,
+      "total_weight": 120
+    },
+    {
+      "varian": "RANDOMRESTART",
+      "seed": 1,
+      "initial_value": 95,
+      "final_value": 189,
+      "iterations": 68,
+      "duration_s": 1.754,
+      "stop_reason": "max_restart",
+      "feasible": true,
+      "vehicles_on_board": 9,
+      "total_weight": 120,
+      "restarts": 10,
+      "iterations_per_restart": [
+        5,
+        6,
+        8,
+        9,
+        8,
+        4,
+        9,
+        7,
+        6,
+        6
+      ]
+    },
+    {
+      "varian": "RANDOMRESTART",
+      "seed": 2,
+      "initial_value": -1297,
+      "final_value": 187,
+      "iterations": 75,
+      "duration_s": 1.793,
+      "stop_reason": "max_restart",
+      "feasible": true,
+      "vehicles_on_board": 8,
+      "total_weight": 120,
+      "restarts": 10,
+      "iterations_per_restart": [
+        6,
+        7,
+        8,
+        8,
+        9,
+        8,
+        7,
+        7,
+        8,
+        7
+      ]
+    },
+    {
+      "varian": "RANDOMRESTART",
+      "seed": 3,
+      "initial_value": -7199,
+      "final_value": 189,
+      "iterations": 74,
+      "duration_s": 1.838,
+      "stop_reason": "max_restart",
+      "feasible": true,
+      "vehicles_on_board": 9,
+      "total_weight": 120,
+      "restarts": 10,
+      "iterations_per_restart": [
+        6,
+        7,
+        8,
+        7,
+        6,
+        9,
+        7,
+        7,
+        8,
+        9
+      ]
+    }
+  ]
+}

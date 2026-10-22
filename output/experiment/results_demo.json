@@ -1,0 +1,113 @@
+{
+  "instance": "demo",
+  "upper_bound_knapsack": 189,
+  "hc_params": {
+    "max_sideway": 100,
+    "max_loop": 1000,
+    "k_neighbors": 200
+  },
+  "sa_params": {
+    "T0": null,
+    "alpha": null,
+    "T_min": 0.1,
+    "max_iter": 20000
+  },
+  "runs": [
+    {
+      "algo": "HC",
+      "seed": 1,
+      "initial_value": 95,
+      "final_value": 184,
+      "iterations": 111,
+      "duration_s": 3.666,
+      "feasible": true,
+      "vehicles_on_board": 9,
+      "total_weight": 120,
+      "sideway_used": 106,
+      "max_sideway": 100,
+      "stop_reason": "max_sideways",
+      "k_neighbors": 200
+    },
+    {
+      "algo": "HC",
+      "seed": 2,
+      "initial_value": -1297,
+      "final_value": 189,
+      "iterations": 157,
+      "duration_s": 5.138,
+      "feasible": true,
+      "vehicles_on_board": 9,
+      "total_weight": 120,
+      "sideway_used": 148,
+      "max_sideway": 100,
+      "stop_reason": "max_sideways",
+      "k_neighbors": 200
+    },
+    {
+      "algo": "HC",
+      "seed": 3,
+      "initial_value": -7199,
+      "final_value": 181,
+      "iterations": 106,
+      "duration_s": 3.163,
+      "feasible": true,
+      "vehicles_on_board": 9,
+      "total_weight": 118,
+      "sideway_used": 101,
+      "max_sideway": 100,
+      "stop_reason": "max_sideways",
+      "k_neighbors": 200
+    },
+    {
+      "algo": "SA",
+      "seed": 1,
+      "initial_value": 95,
+      "final_value": 187,
+      "iterations": 20000,
+      "duration_s": 2.681,
+      "feasible": true,
+      "vehicles_on_board": 9,
+      "total_weight": 119,
+      "T0": 86.27,
+      "alpha": 0.999662,
+      "T_final": 0.1,
+      "stuck_count": 13441,
+      "stuck_frequency": 0.6721,
+      "accepted_worse": 577
+    },
+    {
+      "algo": "SA",
+      "seed": 2,
+      "initial_value": -1297,
+      "final_value": 189,
+      "iterations": 20000,
+      "duration_s": 2.623,
+      "feasible": true,
+      "vehicles_on_board": 9,
+      "total_weight": 120,
+      "T0": 86.27,
+      "alpha": 0.999662,
+      "T_final": 0.1,
+      "stuck_count": 13349,
+      "stuck_frequency": 0.6674,
+      "accepted_worse": 579
+    },
+    {
+      "algo": "SA",
+      "seed": 3,
+      "initial_value": -7199,
+      "final_value": 189,
+      "iterations": 20000,
+      "duration_s": 2.308,
+      "feasible": true,
+      "vehicles_on_board": 9,
+      "total_weight": 120,
+      "T0": 86.27,
+      "alpha": 0.999662,
+      "T_final": 0.1,
+      "stuck_count": 13362,
+      "stuck_frequency": 0.6681,
+      "accepted_worse": 580
+    }
+  ]
+}
