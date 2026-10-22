@@ -1,0 +1,41 @@
+============================================================
+SUMMARY
+============================================================
+duration : 3.366074800491333
+metrics  : {'pop_size': 200, 'generations': 100, 'mutation_rate': 0.2, 'best_score': 181}
+
+-- initial state --
+    012345678901
+  0 ............
+  1 ......FFFFF.
+  2 ..KI..FFFFF.
+  3 ..KI........
+  4 ...I........
+  5 ...I....AAA.
+  6 ........AAA.
+  7 .GGG........
+  8 .GGG........
+  9 ............
+  {'total_fee': 86, 'total_weight': 56, 'vehicles_on_board': 5, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+
+-- final state (best) --
+    012345678901
+  0 .K..........
+  1 .K.FFFFFLLLL
+  2 ...FFFFF.GGG
+  3 .......AAGGG
+  4 ...CCC.AADDD
+  5 ..BB...AADDD
+  6 ..BB.....DDD
+  7 ..BB.....DDD
+  8 EEBB...IIII.
+  9 EE..........
+  {'total_fee': 181, 'total_weight': 120, 'vehicles_on_board': 10, 'overlap_cells': 0, 'out_of_bounds_cells': 0, 'overweight_units': 0, 'feasible': True}
+  feasible: YA
+
+history  : 101 entries, first=86, last=181
+============================================================
+plot: C:\Users\Meong\Documents\IF3070_G29_dai-dai-dai\src\..\output\runs\demo\graph_ga.png
+gif: C:\Users\Meong\Documents\IF3070_G29_dai-dai-dai\src\..\output\runs\demo\visualisasi_ga.gif (146 frame)
+frame: C:\Users\Meong\Documents\IF3070_G29_dai-dai-dai\src\..\output\runs\demo\initial_ga.png
+frame: C:\Users\Meong\Documents\IF3070_G29_dai-dai-dai\src\..\output\runs\demo\final_ga.png

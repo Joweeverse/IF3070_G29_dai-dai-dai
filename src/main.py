@@ -20,7 +20,7 @@ def load_instance(path):
 
 def run_algorithm(nama, vehicles, ship):
     if nama == "genetic_algorithm" or nama == "ga":
-        return genetic_algorithm(vehicles, ship, pop_size=8, generations=200)
+        return genetic_algorithm(vehicles, ship, pop_size=200, generations=100)
     elif nama == "simulated_annealing" or nama == "sa":
         return simulated_annealing(vehicles, ship, seed=1)
     elif nama == "hill_climbing" or nama == "hc":
@@ -48,10 +48,10 @@ if __name__ == "__main__":
 
     # plot konvergensi, GIF, & frame awal/akhir
     import os
-    folder_output = os.path.join(os.path.dirname(__file__), "..", "output")
     from plot import plot_convergent, draw_gif, export_state
     nama = sys.argv[1].replace("\\", "/").split("/")[-1].replace(".json", "")
-    plot_convergent(result, os.path.join(folder_output, "graph_" + nama + ".png"))
-    draw_gif(result, vehicles, ship, os.path.join(folder_output, "visualisasi_" + nama + ".gif"))
-    export_state(result["initial_state"], vehicles, ship, os.path.join(folder_output, "initial_" + nama + ".png"))
-    export_state(result["final_state"], vehicles, ship, os.path.join(folder_output, "final_" + nama + ".png"))
+    folder_output = os.path.join(os.path.dirname(__file__), "..", "output", "runs", nama)
+    plot_convergent(result, os.path.join(folder_output, "graph_" + nama_algoritma + ".png"))
+    draw_gif(result, vehicles, ship, os.path.join(folder_output, "visualisasi_" + nama_algoritma + ".gif"))
+    export_state(result["initial_state"], vehicles, ship, os.path.join(folder_output, "initial_" + nama_algoritma + ".png"))
+    export_state(result["final_state"], vehicles, ship, os.path.join(folder_output, "final_" + nama_algoritma + ".png"))

@@ -26,8 +26,8 @@ ABU = "#9ca3af"
 ORANYE = "#d97706"
 HITAM = "#111827"
 
-# folder output
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "output")
+# folder output hasil eksperimen
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "output", "experiment")
 
 
 def gaya_sumbu(ax, xlabel, ylabel, judul):

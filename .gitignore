@@ -1,14 +1,5 @@
 # file hasil generate (plot & animasi) -- yang di-commit cukup .gitkeep
-output/*
-!output/.gitkeep
-
-# hasil eksperimen HC dan SA (dibuat ulang oleh src/experiment_hc_sa.py)
-output/obj_*.png
-output/prob_*.png
-output/states_*.png
-output/states_*.txt
-output/results_*.md
-output/results_*.json   
+output/runs/*
 
 # cache python
 __pycache__/
