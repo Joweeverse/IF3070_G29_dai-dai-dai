@@ -6,68 +6,84 @@ from state import copy_state
 from neighbor_hcsa import make_initial, random_neighbors
 
 
-def hill_climbing(vehicles, ship, max_sideways=100, max_iter=1000,
-                  k_neighbors=200, seed=None, initial_state=None):
+def hill_climbing(vehicles, ship, max_sideway=100, max_loop=1000, k_neighbors=200, seed=None, initial_state=None):
     start = time.perf_counter()
     rng = random.Random(seed)
 
+    # State awal: kalau ga ada, buat acak
     if initial_state is None:
         initial_state = make_initial(vehicles, ship, seed)
     initial_state = copy_state(initial_state)
 
-    current = copy_state(initial_state)
-    current_value = evaluate(current, vehicles, ship)
+    cur = copy_state(initial_state)
+    current_value = evaluate(cur, vehicles, ship)
 
-    history = [current_value] # nilai objective per iterasi (monoton naik)
-    state_history = [copy_state(current)]
-    state_history_iter = [0] # indeks iterasi tiap snapshot (index ke history)
+    # hasil
+    history = [current_value]                 # nilai objective di tiap loop
+    state_history = [copy_state(cur)]     # state untuk perbaikan
+    state_history_iter = [0]                  # loop ke berapa snapshot itu diambil
 
-    sideways_used = 0 # total sideways move
-    sideways_streak = 0 # sideways berturut-turut (yang dibatasi max_sideways)
+    sideway_used = 0      # total sideways move selama pencarian
+    sideway_streak = 0    # streak move
     stop_reason = "max_iter"
     iterations = 0
 
-    for it in range(1, max_iter + 1):
-        cands = random_neighbors(current, vehicles, ship, rng, k_neighbors)
-        values = [evaluate(c, vehicles, ship) for c in cands]
-        best_value = max(values)
-        best_idx = [i for i, v in enumerate(values) if v == best_value]
-        chosen = cands[rng.choice(best_idx)]
+    for it in range(1, max_loop + 1):
         iterations = it
 
-        if best_value > current_value:
-            current, current_value = chosen, best_value
-            sideways_streak = 0
-            state_history.append(copy_state(current))
+        # buat tetangga dan cek satu2 nilainya
+        candidates = random_neighbors(cur, vehicles, ship, rng, k_neighbors)
+        values = []
+        for c in candidates:
+            values.append(evaluate(c, vehicles, ship))
+
+        # cari neighboar paling tinggi nilainya (acak kalau ada yang sama nilainya)
+        best = max(values)
+        best_index = []
+        for i in range(len(values)):
+            if values[i] == best:
+                best_index.append(i)
+        chosen = candidates[rng.choice(best_index)]
+
+        if best > current_value:
+            # pindah saat lebih baik, streak direset
+            cur = chosen
+            current_value = best
+            sideway_streak = 0
+            state_history.append(copy_state(cur))
             state_history_iter.append(it)
-        elif best_value == current_value:
-            current = chosen
-            sideways_used += 1
-            sideways_streak += 1
-            if sideways_streak > max_sideways:
+        elif best == current_value:
+            # pindah, streak sideway nambah 1
+            cur = chosen
+            sideway_used = sideway_used + 1
+            sideway_streak = sideway_streak + 1
+            if sideway_streak > max_sideway:
                 history.append(current_value)
                 stop_reason = "max_sideways"
                 break
         else:
+            # stop, semua tetangga lebih buruk
             history.append(current_value)
             stop_reason = "local_optimum"
             break
+
         history.append(current_value)
 
     duration = time.perf_counter() - start
+
     return {
         "initial_state": initial_state,
-        "final_state": current,
+        "final_state": cur,
         "history": history,
         "duration": duration,
         "metrics": {
             "algorithm": "hill_climbing_sideways",
             "final_value": current_value,
             "iterations": iterations,
-            "sideways_used": sideways_used,
-            "max_sideways": max_sideways,
+            "sideway_used": sideway_used,
+            "max_sideways": max_sideway,
             "k_neighbors": k_neighbors,
-            "max_iter": max_iter,
+            "max_iter": max_loop,
             "stop_reason": stop_reason,
             "seed": seed,
         },

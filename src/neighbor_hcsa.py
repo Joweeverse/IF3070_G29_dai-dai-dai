@@ -2,82 +2,96 @@ import random
 
 from state import random_state, get_dimensions, copy_state
 
-
 def make_initial(vehicles, ship, seed):
-    saved = random.getstate()
-    try:
-        random.seed(seed)
-        return random_state(vehicles, ship)
-    finally:
-        random.setstate(saved)
+    # random_state() pakai random global
+    # simpan, set seed, buat state, kembalikan random global ke kondisi awal
+    init = random.getstate()
+    random.seed(seed)
+    state = random_state(vehicles, ship)
+    random.setstate(init)
+    return state
 
 
-def _random_fit_position(kendaraan, vehicles, ship, rng):
-    """Koordinat acak yang membuat kendaraan muat di geladak (None jika tidak)."""
-    w, h = get_dimensions(kendaraan, vehicles)
-    max_x = ship["width"] - w
-    max_y = ship["length"] - h
-    if max_x < 0 or max_y < 0:
-        return None
-    return rng.randint(0, max_x), rng.randint(0, max_y)
-
-
-def _on_board_indices(state):
-    return [i for i, k in enumerate(state) if k["on_board"]]
+def random_position(kendaraan, vehicles, ship, rng):
+    # pilih posisi acak (x, y)
+    width, height = get_dimensions(kendaraan, vehicles)
+    x_max = ship["width"] - width
+    y_max = ship["length"] - height
+    if x_max < 0 or y_max < 0:
+        return None  # kendaraan lebih besar dari kapal, ga muat
+    x = rng.randint(0, x_max)
+    y = rng.randint(0, y_max)
+    return x, y
 
 
 def random_neighbor(state, vehicles, ship, rng):
-    """Satu neighbor acak dari state. Mengembalikan state baru (deep copy)."""
-    n = len(state)
-    on_idx = _on_board_indices(state)
+    # buat satu neighbor acak
+    result = len(state)
 
-    # kalau belum ada kendaraan di kapal, satu-satunya move bermakna: toggle masuk
-    if on_idx:
-        jenis = rng.choice(["move", "move", "rotate", "toggle", "swap"])
+    # kendaraan yang ada di kapal dicatat
+    on_board = []
+    for temp in range(result):
+        if state[temp]["on_board"]:
+            on_board.append(temp)
+
+    # pilih langkah, move ada 2 agar peluangnya lebih besar kepilih
+    if len(on_board) > 0:
+        type = rng.choice(["move", "move", "rotate", "toggle", "swap"])
     else:
-        jenis = "toggle"
+        type = "toggle"
 
     new_state = copy_state(state)
 
-    if jenis == "move":
-        i = rng.choice(on_idx)
-        pos = _random_fit_position(new_state[i], vehicles, ship, rng)
+    if type == "move":
+        temp = rng.choice(on_board)
+        pos = random_position(new_state[temp], vehicles, ship, rng)
         if pos is not None:
-            new_state[i]["x"], new_state[i]["y"] = pos
+            new_state[temp]["x"] = pos[0]
+            new_state[temp]["y"] = pos[1]
         return new_state
 
-    if jenis == "rotate":
-        i = rng.choice(on_idx)
-        k = new_state[i]
-        k["orientation"] = "V" if k["orientation"] == "H" else "H"
-        w, h = get_dimensions(k, vehicles)
-        k["x"] = max(0, min(k["x"], ship["width"] - w))
-        k["y"] = max(0, min(k["y"], ship["length"] - h))
+    if type == "rotate":
+        temp = rng.choice(on_board)
+        new = new_state[temp]
+        if new["orientation"] == "H":
+            new["orientation"] = "V"
+        else:
+            new["orientation"] = "H"
+        # Setelah diputar ukurannya berubah, geser kalau jadi keluar dari geladak.
+        width, height = get_dimensions(new, vehicles)
+        new["x"] = max(0, min(new["x"], ship["width"] - width))
+        new["y"] = max(0, min(new["y"], ship["length"] - height))
         return new_state
 
-    if jenis == "swap" and n >= 2:
-        i = rng.choice(on_idx)
-        j = rng.randrange(n - 1)
-        if j >= i:
-            j += 1
-        a, b = new_state[i], new_state[j]
-        for key in ("on_board", "x", "y", "orientation"):
+    if type == "swap" and result >= 2:
+        temp = rng.choice(on_board)       # kendaraan pertama harus di kapal
+        j = rng.randrange(result - 1)       # kendaraan kedua: sembarang yang bukan i
+        if j >= temp:
+            j = j + 1
+        a = new_state[temp]
+        b = new_state[j]
+        for key in ["on_board", "x", "y", "orientation"]:
             a[key], b[key] = b[key], a[key]
         return new_state
 
-    # toggle (juga fallback)
-    i = rng.randrange(n)
-    k = new_state[i]
-    if k["on_board"]:
-        k["on_board"] = False
+    # else: toggle
+    temp = rng.randrange(result)
+    new = new_state[temp]
+    if new["on_board"]:
+        new["on_board"] = False
     else:
-        k["on_board"] = True
-        pos = _random_fit_position(k, vehicles, ship, rng)
+        new["on_board"] = True
+        # Kalau masuk kapal, beri posisi acak yang muat.
+        pos = random_position(new, vehicles, ship, rng)
         if pos is not None:
-            k["x"], k["y"] = pos
+            new["x"] = pos[0]
+            new["y"] = pos[1]
     return new_state
 
 
 def random_neighbors(state, vehicles, ship, rng, k):
-    """Sampel k neighbor acak (dipakai HC sebagai pengganti seluruh neighbor)."""
-    return [random_neighbor(state, vehicles, ship, rng) for _ in range(k)]
+    # Membuat k tetangga acak sekaligus (dipakai Hill-Climbing).
+    hasil = []
+    for _ in range(k):
+        hasil.append(random_neighbor(state, vehicles, ship, rng))
+    return hasil
