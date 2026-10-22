@@ -1,106 +1,115 @@
 from state import get_cells, get_vehicle
 
-PENALTY_OVERLAP = 200        # per cell yang overlap
-PENALTY_OUT_OF_BOUNDS = 200  # per cell di luar geladak
-PENALTY_OVERWEIGHT = 200     # per satuan berat berlebih
+P_OVERLAP = 200
+P_BOUNDS = 200
+P_WEIGHT = 200
+
+# "fee" = total fee kendaraan on_board, "eta" = fee dibobot ETA (bonus 1)
+OBJECTIVE_MODE = "fee"
+
+
+def set_objective(mode):
+    global OBJECTIVE_MODE
+    if mode not in ("fee", "eta"):
+        raise ValueError("mode objective harus 'fee' atau 'eta'")
+    OBJECTIVE_MODE = mode
 
 
 def calc_fee(state, vehicles):
-    # total shipping fee semua kendaraan yang on_board
-    fee = 0
-    for kendaraan in state:
-        if kendaraan["on_board"]:
-            v = get_vehicle(vehicles, kendaraan["vehicle_id"])
-            fee = fee + v["shipping_fee"]
-    return fee
+    total = 0
+    for k in state:
+        if k["on_board"]:
+            total += get_vehicle(vehicles, k["vehicle_id"])["shipping_fee"]
+    return total
+
+
+def calc_fee_eta(state, vehicles):
+    # makin kecil ETA makin urgent, bobot 1..2
+    # bobot = 1 + (eta_max - eta) / eta_max
+    eta_max = 0
+    for v in vehicles.values():
+        eta_max = max(eta_max, v.get("eta", 0))
+
+    total = 0
+    for k in state:
+        if not k["on_board"]:
+            continue
+        v = get_vehicle(vehicles, k["vehicle_id"])
+        bobot = 1
+        if eta_max > 0:
+            bobot = 1 + (eta_max - v.get("eta", eta_max)) / eta_max
+        total += v["shipping_fee"] * bobot
+    return total
+
+
+def calc_nilai(state, vehicles):
+    if OBJECTIVE_MODE == "eta":
+        return calc_fee_eta(state, vehicles)
+    return calc_fee(state, vehicles)
 
 
 def calc_berat(state, vehicles):
-    # total berat semua kendaraan yang on_board
-    berat = 0
-    for kendaraan in state:
-        if kendaraan["on_board"]:
-            v = get_vehicle(vehicles, kendaraan["vehicle_id"])
-            berat = berat + v["weight"]
-    return berat
+    total = 0
+    for k in state:
+        if k["on_board"]:
+            total += get_vehicle(vehicles, k["vehicle_id"])["weight"]
+    return total
 
 
 def calc_keluar_batas(state, vehicles, ship):
-    # jumlah cell yang berada di luar batas kapal
-    jumlah = 0
-    for kendaraan in state:
-        if kendaraan["on_board"]:
-            cells = get_cells(kendaraan, vehicles)
-            for cell in cells:
-                x = cell[0]
-                y = cell[1]
-                if x < 0 or x >= ship["width"] or y < 0 or y >= ship["length"]:
-                    jumlah = jumlah + 1
-    return jumlah
+    count = 0
+    for k in state:
+        if not k["on_board"]:
+            continue
+        for x, y in get_cells(k, vehicles):
+            if x < 0 or x >= ship["width"] or y < 0 or y >= ship["length"]:
+                count += 1
+    return count
 
 
 def calc_overlap(state, vehicles, ship):
-    # jumlah cell yang ditempati lebih dari 1 kendaraan (yang kelebihan dihitung jg)
-    jumlah = 0
-    for i in range(len(state)):
+    # hitung cell kembar untuk tiap pasangan kendaraan
+    count = 0
+    n = len(state)
+    for i in range(n):
         if not state[i]["on_board"]:
             continue
-        cells_i = get_cells(state[i], vehicles)
-        for j in range(i + 1, len(state)):
+        ci = get_cells(state[i], vehicles)
+        for j in range(i + 1, n):
             if not state[j]["on_board"]:
                 continue
-            cells_j = get_cells(state[j], vehicles)
-            # cek cell yang sama
-            for cell in cells_i:
-                if cell in cells_j:
-                    jumlah = jumlah + 1
-    return jumlah
+            cj = get_cells(state[j], vehicles)
+            for c in ci:
+                if c in cj:
+                    count += 1
+    return count
 
 
 def calc_overweight(state, vehicles, ship):
-    berat = calc_berat(state, vehicles)
-    lebih = berat - ship["max_weight"]
-    if lebih < 0:
-        return 0
-    return lebih
+    lebih = calc_berat(state, vehicles) - ship["max_weight"]
+    return max(lebih, 0)
 
 
 def evaluate(state, vehicles, ship):
-    fee = calc_fee(state, vehicles)
-    overlap = calc_overlap(state, vehicles, ship)
-    keluar = calc_keluar_batas(state, vehicles, ship)
-    overweight = calc_overweight(state, vehicles, ship)
-    penalty = (PENALTY_OVERLAP * overlap
-               + PENALTY_OUT_OF_BOUNDS * keluar
-               + PENALTY_OVERWEIGHT * overweight)
-    return fee - penalty
+    nilai = calc_nilai(state, vehicles)
+    penalty = (P_OVERLAP * calc_overlap(state, vehicles, ship)
+               + P_BOUNDS * calc_keluar_batas(state, vehicles, ship)
+               + P_WEIGHT * calc_overweight(state, vehicles, ship))
+    return nilai - penalty
 
 
 def summarize(state, vehicles, ship):
-    # info detail: fee, berat, pelanggaran, feasible/tidak
-    fee = calc_fee(state, vehicles)
-    berat = calc_berat(state, vehicles)
     overlap = calc_overlap(state, vehicles, ship)
     keluar = calc_keluar_batas(state, vehicles, ship)
     overweight = calc_overweight(state, vehicles, ship)
-
-    # hitung jumlah kendaraan on_board
-    on_board = 0
-    for kendaraan in state:
-        if kendaraan["on_board"]:
-            on_board = on_board + 1
-
-    if overlap == 0 and keluar == 0 and overweight == 0:
-        feasible = True
-    else:
-        feasible = False
+    jumlah = sum(1 for k in state if k["on_board"])
 
     return {
-        "total_fee": fee,
-        "total_weight": berat,
-        "vehicles_on_board": on_board,
+        "total_fee": calc_fee(state, vehicles),
+        "total_weight": calc_berat(state, vehicles),
+        "vehicles_on_board": jumlah,
         "overlap_cells": overlap,
         "out_of_bounds_cells": keluar,
         "overweight_units": overweight,
-        "feasible": feasible,
+        "feasible": overlap == 0 and keluar == 0 and overweight == 0,
     }
