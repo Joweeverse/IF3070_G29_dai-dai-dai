@@ -46,10 +46,12 @@ if __name__ == "__main__":
         sys.exit(1)
     print_report(result, vehicles, ship)
 
-    # plot konvergensi & GIF
+    # plot konvergensi, GIF, & frame awal/akhir
     import os
     folder_output = os.path.join(os.path.dirname(__file__), "..", "output")
-    from plot import plot_convergent, draw_gif
+    from plot import plot_convergent, draw_gif, export_state
     nama = sys.argv[1].replace("\\", "/").split("/")[-1].replace(".json", "")
     plot_convergent(result, os.path.join(folder_output, "graph_" + nama + ".png"))
     draw_gif(result, vehicles, ship, os.path.join(folder_output, "visualisasi_" + nama + ".gif"))
+    export_state(result["initial_state"], vehicles, ship, os.path.join(folder_output, "initial_" + nama + ".png"))
+    export_state(result["final_state"], vehicles, ship, os.path.join(folder_output, "final_" + nama + ".png"))

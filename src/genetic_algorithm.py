@@ -1,7 +1,7 @@
 import random
 import time
 
-from state import random_state, move_relocate, move_rotate, move_toggle
+from state import random_state, move_relocate, move_rotate, move_toggle, move_swap
 from objective import evaluate
 
 def initiate_pop(vehicles, ship, pop_size):
@@ -58,17 +58,23 @@ def crossover(parent_a, parent_b):
 
 def mutasi(state, ship, mutation_rate):
     # ubah 1 kendaraan random sesuai mutation_rate
-    # pindah posisi/putar orientasi/keluar-masuk kapal
+    # pindah posisi/putar orientasi/keluar-masuk kapal/tukar posisi 2 kendaraan
     if random.random() >= mutation_rate:
         return state
     i = random.randint(0, len(state) - 1)
-    pilihan = random.randint(0, 2)
+    pilihan = random.randint(0, 3)
     if pilihan == 0:
         return move_relocate(state, i, ship)
     elif pilihan == 1:
         return move_rotate(state, i)
-    else:
+    elif pilihan == 2:
         return move_toggle(state, i)
+    else:
+        # swap: tukar posisi & orientasi kendaraan i dengan kendaraan random lain
+        j = random.randint(0, len(state) - 1)
+        while j == i:
+            j = random.randint(0, len(state) - 1)
+        return move_swap(state, i, j)
 
 
 def genetic_algorithm(vehicles, ship, pop_size=50, generations=100, mutation_rate=0.2):
@@ -97,7 +103,21 @@ def genetic_algorithm(vehicles, ship, pop_size=50, generations=100, mutation_rat
         for individu in populasi:
             scores.append(evaluate(individu, vehicles, ship))
 
-        populasi_baru = []
+        # elitisme 2 individu terbaik langsung ikut ke generasi berikutnya
+        # ref: https://www.tutorialspoint.com/genetic_algorithms/genetic_algorithms_survivor_selection.htm
+        idx_best_first = 0
+        idx_best_second = 1
+        if scores[idx_best_second] > scores[idx_best_first]:
+            idx_best_first = 1
+            idx_best_second = 0
+        for i in range(2, len(populasi)):
+            if scores[i] > scores[idx_best_first]:
+                idx_best_second = idx_best_first
+                idx_best_first = i
+            elif scores[i] > scores[idx_best_second]:
+                idx_best_second = i
+
+        populasi_baru = [copy(populasi[idx_best_first]), copy(populasi[idx_best_second])]
 
         while len(populasi_baru) < pop_size:
             parent_a = selection(populasi, scores)
